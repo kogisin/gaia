@@ -1,9 +1,10 @@
 ## System spec
 
 OS: MacOS High Sierra
+
 Go version: go1.12.1 darwin/amd64
 
-# Fork gaia v2.0.0 repository
+## Fork gaia v2.0.0 repository
 
 https://github.com/cosmos/gaia/tree/v2.0.0
 
@@ -13,7 +14,7 @@ https://github.com/cosmos/gaia/tree/v2.0.0
 $ git clone https://github.com/kogisin/gaia/tree/v2.0.0
 ```
 
-## Curl genesis.json in $HOME/.gaiad/config directory
+## Get gaia-13006 testnet genesis.json
 
 ```
 $ curl https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json > $HOME/.gaiad/config/genesis.json
@@ -21,7 +22,9 @@ $ curl https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis
 
 ## Import wallet 
 
-I used this wallet throughout the previous testnets. I verified that it is included in genesis.json
+I used this wallet throughout the previous testnets. 
+
+I verified the below account is included in the genesis file
 
 ```
 $ gaiacli keys add <name> --recover
@@ -40,7 +43,8 @@ $ sudo gaiad gentx \
 --pubkey=$(sudo gaiad tendermint show-validator)
 ```
 
-Error !
+
+## UnmarshalJSON Error 
 
 ```
 ERROR: UnmarshalJSON cannot decode empty bytes
