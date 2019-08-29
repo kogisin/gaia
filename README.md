@@ -32,7 +32,7 @@ $ gaiacli keys add <name> --recover
 
 Address: `cosmos1x5wgh6vwye60wv3dtshs9dmqggwfx2ldnqvev0`
 
-## Create gentx
+## Execute the gentx command providing below set of inputs
 
 ```
 $ sudo gaiad gentx \
@@ -43,11 +43,8 @@ $ sudo gaiad gentx \
 --pubkey=$(sudo gaiad tendermint show-validator)
 ```
 
-
-## UnmarshalJSON Error 
+Following error is returned
 
 ```
 ERROR: UnmarshalJSON cannot decode empty bytes
 ```
-
-
