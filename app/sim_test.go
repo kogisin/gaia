@@ -398,6 +398,7 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 			fmt.Println(err)
 			b.Fail()
 		}
+<<<<<<< HEAD
 	}
 
 	if exportParamsPath != "" {
@@ -420,6 +421,30 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 		b.FailNow()
 	}
 
+=======
+	}
+
+	if exportParamsPath != "" {
+		fmt.Println("Exporting simulation params...")
+		paramsBz, err := json.MarshalIndent(params, "", " ")
+		if err != nil {
+			fmt.Println(err)
+			b.Fail()
+		}
+
+		err = ioutil.WriteFile(exportParamsPath, paramsBz, 0644)
+		if err != nil {
+			fmt.Println(err)
+			b.Fail()
+		}
+	}
+
+	if simErr != nil {
+		fmt.Println(simErr)
+		b.FailNow()
+	}
+
+>>>>>>> bfbb46a22a9fd3229e903a7bdeb398b6e50fa0e1
 	if commit {
 		fmt.Println("\nGoLevelDB Stats")
 		fmt.Println(db.Stats()["leveldb.stats"])
@@ -713,6 +738,7 @@ func TestAppStateDeterminism(t *testing.T) {
 			db := dbm.NewMemDB()
 			app := NewGaiaApp(logger, db, nil, true, 0)
 
+<<<<<<< HEAD
 			fmt.Printf(
 				"Running non-determinism simulation; seed: %d/%d (%d), attempt: %d/%d\n",
 				i+1, numSeeds, seed, j+1, numTimesToRunPerSeed,
@@ -727,10 +753,18 @@ func TestAppStateDeterminism(t *testing.T) {
 			)
 			require.NoError(t, err)
 
+=======
+			// Run randomized simulation
+			simulation.SimulateFromSeed(
+				t, os.Stdout, app.BaseApp, appStateFn, seed, testAndRunTxs(app),
+				[]sdk.Invariant{}, 1, numBlocks, exportParamsHeight,
+				blockSize, "", false, commit, lean,
+				false, false, app.ModuleAccountAddrs(),
+			)
+>>>>>>> bfbb46a22a9fd3229e903a7bdeb398b6e50fa0e1
 			appHash := app.LastCommitID().Hash
 			appHashList[j] = appHash
 		}
-
 		for k := 1; k < numTimesToRunPerSeed; k++ {
 			require.Equal(t, appHashList[0], appHashList[k], "appHash list: %v", appHashList)
 		}

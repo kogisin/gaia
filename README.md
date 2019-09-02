@@ -1,41 +1,62 @@
-# Cosmos Hub
-![banner](./docs/cosmos-hub-image.jpg)
+## System spec
 
-[![CircleCI](https://circleci.com/gh/cosmos/gaia/tree/master.svg?style=shield)](https://circleci.com/gh/cosmos/gaia/tree/master)
-[![codecov](https://codecov.io/gh/cosmos/gaia/branch/master/graph/badge.svg)](https://codecov.io/gh/cosmos/gaia)
-[![Go Report Card](https://goreportcard.com/badge/github.com/cosmos/gaia)](https://goreportcard.com/report/github.com/cosmos/gaia)
-[![license](https://img.shields.io/github/license/cosmos/gaia.svg)](https://github.com/cosmos/gaia/blob/master/LICENSE)
-[![LoC](https://tokei.rs/b1/github/cosmos/gaia)](https://github.com/cosmos/gaia)
-[![GolangCI](https://golangci.com/badges/github.com/cosmos/gaia.svg)](https://golangci.com/r/github.com/cosmos/gaia)
-[![riot.im](https://img.shields.io/badge/riot.im-JOIN%20CHAT-green.svg)](https://riot.im/app/#/room/#cosmos-sdk:matrix.org)
+OS: MacOS High Sierra
 
-This repository hosts `Gaia`, the first implementation of the Cosmos Hub.
+Go version: go1.12.1 darwin/amd64
 
-**Note**: Requires [Go 1.12+](https://golang.org/dl/)
+## Fork gaia v2.0.0 repository
 
-**DISCLAIMER**: The current version of Gaia running the Cosmos Hub (v0.34.x) is
-__NOT__ maintained in this repository. Gaia and the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/)
-have been recently split. All future versions of Gaia, including the next major
-upgrade, will be maintained in this repository. However, until the next major upgrade,
-Gaia should be fetched and built from the latest [released](https://github.com/cosmos/cosmos-sdk/releases)
-__v0.34.x__ version in the SDK repository. In addition, this repository should be
-considered unstable until the next major release of Gaia. Please bear with us
-while we continue the migration process and update documentation.
+https://github.com/cosmos/gaia/tree/v2.0.0
 
-## Cosmos Hub Mainnet
-
-To run a full-node for the mainnet of the Cosmos Hub, first [install `gaia`](./docs/installation.md), then follow [the guide](./docs/join-mainnet.md).
-
-For status updates and genesis file, see the [launch repo](https://github.com/cosmos/launch).
-
-## Quick Start
+## Clone the repository in local machine
 
 ```
-make install
+$ git clone https://github.com/kogisin/gaia/tree/v2.0.0
 ```
 
-## Disambiguation
+## Create or import wallet 
 
-This Cosmos-SDK project is not related to the [React-Cosmos](https://github.com/react-cosmos/react-cosmos) project (yet). Many thanks to Evan Coury and Ovidiu (@skidding) for this Github organization name. As per our agreement, this disambiguation notice will stay here.
+Make sure your created wallet is included in `accounts` field in `genesis.json` file and have some tokens.
+I verified my imported account is included in the `genesis.json` file
+
+Address: `cosmos1x5wgh6vwye60wv3dtshs9dmqggwfx2ldnqvev0`
+
+```
+Create wallet
+$ gaiacli keys add <name>
+
+Import wallet
+$ gaiacli keys add <name> --recover
+
+Include your account in genesis.json file
+$ gaiad add-genesis-account validator 100000000000000000muon
+```
+
+## Execute the gentx command providing below set of inputs
+
+```
+$ sudo gaiad gentx \
+--name=JayB \
+--amount=500muon \
+--min-self-delegation=1 \
+--node-id=$(sudo gaiad tendermint show-node-id) \
+--pubkey=$(sudo gaiad tendermint show-validator)
+```
+
+
+## #1. Error: ERROR: UnmarshalJSON cannot decode empty bytes 
+
+Problem with gaia-13006 testnet genesis.json is that `gentxs` field in `app_state` object is `null`.
+
+```
+$ curl https://raw.githubusercontent.com/cosmos/testnets/master/gaia-13k/genesis.json > $HOME/.gaiad/config/genesis.json
+```
+
+If it is null, then it returns the following error
+
+```
+ERROR: UnmarshalJSON cannot decode empty bytes 
+```
+ 
 
 

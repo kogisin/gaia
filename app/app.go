@@ -165,7 +165,11 @@ func NewGaiaApp(logger log.Logger, db dbm.DB, traceStore io.Writer, loadLatest b
 		AddRoute(params.RouterKey, params.NewParamChangeProposalHandler(app.paramsKeeper)).
 		AddRoute(distr.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.distrKeeper))
 	app.govKeeper = gov.NewKeeper(
+<<<<<<< HEAD
 		app.cdc, keys[gov.StoreKey], govSubspace,
+=======
+		app.cdc, keys[gov.StoreKey], app.paramsKeeper, govSubspace,
+>>>>>>> bfbb46a22a9fd3229e903a7bdeb398b6e50fa0e1
 		app.supplyKeeper, &stakingKeeper, gov.DefaultCodespace, govRouter,
 	)
 

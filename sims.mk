@@ -6,7 +6,11 @@
 SIMAPP = github.com/cosmos/gaia/app
 
 sim-gaia-nondeterminism:
+<<<<<<< HEAD
 	@echo "Running non-determinism test..."
+=======
+	@echo "Running nondeterminism test..."
+>>>>>>> bfbb46a22a9fd3229e903a7bdeb398b6e50fa0e1
 	@go test -mod=readonly $(SIMAPP) -run TestAppStateDeterminism -Enabled=true \
 		-NumBlocks=100 -BlockSize=200 -Commit=true -v -timeout 24h
 
@@ -31,7 +35,7 @@ sim-gaia-simulation-after-import: runsim
 sim-gaia-custom-genesis-multi-seed: runsim
 	@echo "Running multi-seed custom genesis simulation..."
 	@echo "By default, ${HOME}/.gaiad/config/genesis.json will be used."
-	$(GOPATH)/bin/runsim -g ${HOME}/.gaiad/config/genesis.json 400 5 TestFullGaiaSimulation
+	$(GOPATH)/bin/runsim $(SIMAPP) -g ${HOME}/.gaiad/config/genesis.json 400 5 TestFullGaiaSimulation
 
 sim-gaia-multi-seed: runsim
 	@echo "Running multi-seed Gaia simulation. This may take awhile!"
